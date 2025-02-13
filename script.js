@@ -1,30 +1,84 @@
-const form = document.getElementById("formulario-contato")
+const form = document.getElementById("formulario-contato");
+const formGroup = document.querySelectorAll(".form-group");
 
-// Validação do formulário de contato
+
+let inputs = document.querySelectorAll(".form-control"); 
+
+
+//Validação do formulário de contato
 form.addEventListener('submit', function(event) {
-    event.preventDefault(); 
-    
+    event.preventDefault();
+       
     if(formValidation()) {
+        inputs.forEach(input => {
+            input.value = "";
+        })
         alert("Formulário enviado com sucesso!");
-        this.submit();
     } 
 })
 
-function formValidation() {
-    let inputs = document.querySelectorAll(".form-control"); 
-    let isValid = true; 
 
+function formValidation() {
+    let isValid = true;
     inputs.forEach(input => {
-        if (input.value.trim() === "") {
-            input.style.border = "2px solid red"; 
+        if (input.value.trim() === "") {            
+            input.style.border = "2px solid red";
+
+            if(input.id === 'nome') {
+                let name = document.getElementById('nome');
+                const formGroup = name.closest('.form-group');
+                if(!formGroup.querySelector('span')) {
+                    let span = document.createElement('span');
+                    span.classList.add('error');
+                    span.innerHTML = "Nome inválido";
+                    formGroup.appendChild(span);
+                }
+            }
+
+            if(input.id === 'email') {
+                let email = document.getElementById('email');
+                const formGroup = email.closest('.form-group');
+                if(!formGroup.querySelector('span')) {
+                    let span = document.createElement('span');
+                    span.classList.add('error');
+                    span.innerHTML = "Email inválido";
+                    formGroup.appendChild(span);
+                }     
+            }
+
+            if(input.id === 'contatoFormulario') {
+                let contact = document.getElementById('contatoFormulario');
+                const formGroup = contact.closest('.form-group');
+                if(!formGroup.querySelector('span')) {
+                    let span = document.createElement('span');
+                    span.classList.add('error');
+                    span.innerHTML = "Contato inválido";
+                    formGroup.appendChild(span);
+                }     
+            }
+
+            if(input.id === 'mensagem') {
+                let message = document.getElementById('mensagem');
+                const formGroup = message.closest('.form-group');
+                if(!formGroup.querySelector('span')) {
+                    let span = document.createElement('span');
+                    span.classList.add('error');
+                    span.innerHTML = "Campo obrigatório";
+                    formGroup.appendChild(span);
+                }     
+            }
             isValid = false;
+            
         } else {
             input.style.border = "2px solid green";
         }
+
     });
 
     return isValid;
 }
+
+
 
 document.querySelectorAll(".form-control").forEach(input => {
     input.addEventListener("input", function() {
@@ -36,15 +90,9 @@ document.querySelectorAll(".form-control").forEach(input => {
     });
 });
 
-document.querySelectorAll(".form-control").forEach(input => {
-    input.addEventListener("input", function() {
-        if (input.value.trim() === '') {
-            input.style.border = "2px solid red";
-        } else {
-            input.style.border = "2px solid green";
-        }
-    });
-});
+
+
+
 
 
 // Animação dos cards dos cursos 

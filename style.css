@@ -31,3 +31,9 @@ footer {
     background-color: #343a40;
     color: white;
 }
+
+.error {
+    color: red;
+    margin-left: 10px;
+    font-size: 12px;
+}
