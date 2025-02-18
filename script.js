@@ -15,6 +15,8 @@ form.addEventListener('submit', function(event) {
         })
         alert("Formulário enviado com sucesso!");
     } 
+
+    sendFormDataAjax();
 })
 
 
@@ -91,7 +93,34 @@ document.querySelectorAll(".form-control").forEach(input => {
 });
 
 
+//Enviar dados formulário AJAX
+// function sendFormDataAjax() {
+//     //dados do AJAX
+//     let formData = new FormData();
+//     formData.append("nome", nome);
+//     formData.append("email", email);
+//     formData.append("senha", senha);
 
+//     fetch("processa_formulario.php", {
+//         method: "POST",
+//         body: formData
+//     })
+//     .then(response => response.json()) // Espera a resposta do servidor em JSON
+//     .then(data => {
+//         if (data.sucesso) {
+//             document.getElementById("mensagem").innerText = "Formulário enviado com sucesso!";
+//             document.getElementById("mensagem").classList.add("sucesso");
+//         } else {
+//             document.getElementById("mensagem").innerText = data.mensagem;
+//             document.getElementById("mensagem").classList.add("erro");
+//         }
+//     })
+//     .catch(error => {
+//         document.getElementById("mensagem").innerText = "Erro ao enviar o formulário.";
+//         document.getElementById("mensagem").classList.add("erro");
+//         console.error("Erro:", error);
+//     });
+// }
 
 
 
@@ -148,4 +177,50 @@ buttonTop.addEventListener('click', function() {
         behavior: 'smooth'
     })
 })
+
+
+
+//Carrossel Sobre Nós
+let aboutContainer = document.getElementById('sobre');
+
+window.onload = function() {
+    let carrosselContainer = document.createElement('div');
+    carrosselContainer.classList.add('carrosselContainer');
+    aboutContainer.appendChild(carrosselContainer);
+
+    const images = [
+        {src: './img/fotoCarrossel.jpg'},
+        {src: './img/Front-endTurma.jpg'}
+    ]
+    
+    let carrosselHTML = `
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+    `;
+    
+    images.forEach((imagem, index) => {
+        carrosselHTML += `
+            <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                <img src="${imagem.src} class="d-block w-100" alt="Carrossel" width="800" height="400"">
+            </div>
+        `;
+        
+    });
+    
+    carrosselHTML += `
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        `;
+    
+    // Inserir o carrossel no contêiner
+    carrosselContainer.innerHTML = carrosselHTML;
+}
 
