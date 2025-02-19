@@ -37,3 +37,11 @@ footer {
     margin-left: 10px;
     font-size: 12px;
 }
+
+
+/* Estilos incluidos por mim: Rafaela*/
+
+#map {
+    height: 400px;  /* Defina a altura que preferir */
+    width: 100%;    /* Largura 100% para se ajustar ao container */
+}

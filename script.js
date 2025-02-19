@@ -152,6 +152,7 @@ cardImg.forEach(img => {
     img.style.minHeight = "200px";
 })
 
+
 //Missão 2
 //Criar botão para voltar ao topo.
 const buttonTop = document.createElement('button');
@@ -179,8 +180,7 @@ buttonTop.addEventListener('click', function() {
 })
 
 
-
-//Carrossel Sobre Nós
+//-----------------------------------------------Carrossel Sobre Nós
 let aboutContainer = document.getElementById('sobre');
 
 window.onload = function() {
@@ -201,26 +201,150 @@ window.onload = function() {
     images.forEach((imagem, index) => {
         carrosselHTML += `
             <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                <img src="${imagem.src} class="d-block w-100" alt="Carrossel" width="800" height="400"">
+                <img src="${imagem.src}" class="d-block w-100" alt="Carrossel" width="800" height="400">
             </div>
-        `;
-        
+        `;       
     });
-    
-    carrosselHTML += `
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        `;
     
     // Inserir o carrossel no contêiner
     carrosselContainer.innerHTML = carrosselHTML;
 }
+
+//--------------------------------------------------API EXTERNA
+
+let contactContainer = document.getElementById('contato');
+
+//Criar uma sessão no container do contacto para incluir a morada e a div do mapa.
+let cesaeInfo = document.createElement('div');
+cesaeInfo.classList.add('cesaeInfo');
+cesaeInfo.innerHTML = `
+    <div class="cesaeInfo">
+        <div class="address">           
+           <h1 class="infoTitle">Nossa localização: </h1>
+            <p class="address">R. de Ciríaco Cardoso, 186 <br> Porto - 4150-212 </br></p>
+        </div>
+
+         <div id="map"></div>
+    </div>
+`
+contactContainer.appendChild(cesaeInfo);
+
+
+//Pegar os dados para colocar usar a API - Escolhido o Map Tiler
+let address = "R. de Ciríaco Cardoso, 186 Porto - 4150-212";
+let url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+
+//Faço a requisição e pego as coordenadas
+fetch(url)
+.then(response => response.json())
+.then(data => {
+    let lat = data[0].lat;
+    let lon = data[0].lon;
+
+    // Inicializo o mapa dentro da div que criei com o id map
+    let map = L.map('map').setView([lat, lon], 16);
+    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=SIoAvuIVZgEnujqCK3FY', {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles &copy; <a href="https://maptiler.com/copyright">MapTiler</a>'
+    }).addTo(map);
+
+    // Adicionar um marcador no endereço
+    let marker = L.marker([lat, lon]).addTo(map);
+    marker.bindPopup("<b>Localização:</b><br>" + address).openPopup();
+  })
+  
+.catch(error => console.error('Erro ao obter coordenadas:', error));
+
+
+//-----------------------------------------------------------Modais
+let cardButton = document.querySelectorAll('.card-body a');
+
+cardButton.forEach((button, index) => {
+    button.classList.add(`btn-${index + 1}`);
+    console.log(button);
+
+    let modals = [];
+
+        // Criar o modal correspondente
+        let modal = document.createElement('div');
+        modal.classList.add('modal', `modal-${index + 1}`);
+        modal.style.position = 'fixed';
+        modal.style.zIndex = '1000';
+        modal.style.left = '0';
+        modal.style.top = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        modal.style.display = 'none'; // Oculto inicialmente
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+
+        // Criar o conteúdo do modal
+        let modalContent = document.createElement('div');
+        modalContent.classList.add('modal-content');
+        modalContent.style.backgroundColor = 'white';
+        modalContent.style.padding = '20px';
+        modalContent.style.borderRadius = '8px';
+        modalContent.style.width = '50%';
+        modalContent.style.textAlign = 'center';
+        modalContent.style.position = 'relative';
+
+        // Criar o botão de fechar
+        let closeButton = document.createElement('span');
+        closeButton.innerHTML = '&times;';
+        closeButton.style.position = 'absolute';
+        closeButton.style.top = '10px';
+        closeButton.style.right = '15px';
+        closeButton.style.fontSize = '20px';
+        closeButton.style.cursor = 'pointer';
+
+        // Criar o conteúdo do modal específico
+        let title = document.createElement('h2');
+        title.innerText = `Modal ${index + 1}`;
+
+        let description = document.createElement('p');
+        description.innerText = `Este é o conteúdo do modal ${index + 1}, aberto pelo botão ${index + 1}.`;
+
+        // Montar o modal
+        modalContent.appendChild(closeButton);
+        modalContent.appendChild(title);
+        modalContent.appendChild(description);
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+
+        // Armazenar modal na lista
+        modals.push(modal);
+
+        // Evento para abrir o modal correto
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Evita redirecionamento
+            modals[index].style.display = "flex"; // Mostra o modal correspondente
+        });
+
+        // Fechar modal ao clicar no botão de fechar
+        closeButton.addEventListener('click', function () {
+            modals[index].style.display = "none";
+        });
+
+        // Fechar modal ao clicar fora do conteúdo
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                modals[index].style.display = "none";
+            }
+        });
+    });
+
+
+// let modal = document.createElement('div');
+// modal.classList.add('modal');
+// modal.style.position = 'fixed';
+// modal.style.zIndex = '1000';
+// modal.style.left = '0';
+// modal.style.top = '0';
+// modal.style.width = '100%';
+// modal.style.height = '100%';
+// modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+// modal.style.display = 'flex';
+// modal.style.justifyContent = 'center';
+// modal.style.alignItems = 'center';
+
 
