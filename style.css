@@ -40,8 +40,12 @@ footer {
 
 
 /* Estilos incluidos por mim: Rafaela*/
+html {
+    scroll-behavior: smooth;
+}
 
 #map {
     height: 400px;  /* Defina a altura que preferir */
     width: 100%;    /* Largura 100% para se ajustar ao container */
 }
+
