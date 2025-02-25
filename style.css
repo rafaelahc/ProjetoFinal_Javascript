@@ -45,7 +45,7 @@ html {
 }
 
 #map {
-    height: 400px;  /* Defina a altura que preferir */
-    width: 100%;    /* Largura 100% para se ajustar ao container */
+    height: 400px;
+    width: 100%;   
 }
 

@@ -14,7 +14,6 @@ form.addEventListener("submit", function (event) {
     alert("Formulário enviado com sucesso!");
   }
 
-  sendFormDataAjax();
 });
 
 function formValidation() {
@@ -84,35 +83,6 @@ document.querySelectorAll(".form-control").forEach((input) => {
     }
   });
 });
-
-//Enviar dados formulário AJAX
-// function sendFormDataAjax() {
-//     //dados do AJAX
-//     let formData = new FormData();
-//     formData.append("nome", nome);
-//     formData.append("email", email);
-//     formData.append("senha", senha);
-
-//     fetch("processa_formulario.php", {
-//         method: "POST",
-//         body: formData
-//     })
-//     .then(response => response.json()) // Espera a resposta do servidor em JSON
-//     .then(data => {
-//         if (data.sucesso) {
-//             document.getElementById("mensagem").innerText = "Formulário enviado com sucesso!";
-//             document.getElementById("mensagem").classList.add("sucesso");
-//         } else {
-//             document.getElementById("mensagem").innerText = data.mensagem;
-//             document.getElementById("mensagem").classList.add("erro");
-//         }
-//     })
-//     .catch(error => {
-//         document.getElementById("mensagem").innerText = "Erro ao enviar o formulário.";
-//         document.getElementById("mensagem").classList.add("erro");
-//         console.error("Erro:", error);
-//     });
-// }
 
 // Animação dos cards dos cursos
 const cards = document.querySelectorAll("#cursos .card");
@@ -199,7 +169,6 @@ window.onload = function () {
 };
 
 
-
 //---------------------------------------------------Quizz
 
 // Dados da pergunta do quiz
@@ -221,7 +190,7 @@ const questionData = {
 
 let score = 0;
 
-// Criando os elementos do Quiz
+// Criando o HTML e CSS
 const container = document.createElement("div");
 container.id = "quiz-container";
 container.style.textAlign = "center";
@@ -230,7 +199,7 @@ container.style.backgroundColor = "#7C98B3";
 container.style.marginBottom = "20px";
 
 const title = document.createElement("h1");
-title.textContent = "Quiz";
+title.textContent = "Quiz do Cesae";
 
 const questionElement = document.createElement("p");
 questionElement.id = "question-text";
@@ -265,7 +234,7 @@ container.appendChild(answersBox);
 container.appendChild(resultContainer);
 document.body.appendChild(container);
 
-// Função para carregar a pergunta
+// Função para carregar as pergunta
 function loadQuestion() {
   questionElement.textContent = questionData.question;
   answersBox.innerHTML = "";
@@ -298,10 +267,10 @@ function checkAnswer(button) {
   const isCorrect = button.dataset.correct === "true";
 
   if (isCorrect) {
-    button.style.backgroundColor = "#4EAC3B"; // Verde para resposta correta
+    button.style.backgroundColor = "#4EAC3B"; // Resposta correta
     score = 1;
   } else {
-    button.style.backgroundColor = "#B82020"; // Vermelho para resposta errada
+    button.style.backgroundColor = "#B82020"; // Resposta incorreta
   }
 
   setTimeout(showResult, 700);
@@ -329,7 +298,7 @@ loadQuestion();
 
 aboutContainer.appendChild(container);
 
-//--------------------------------------------------API EXTERNA - MAPA
+//--------------------------------------------------API EXTERNA - MAPA OPEN STREET
 
 let contactContainer = document.getElementById("contato");
 
@@ -448,12 +417,12 @@ document.addEventListener("DOMContentLoaded", () => {
 // Colocando a logo
 const navbarBrand = document.querySelector(".navbar-brand");
 
-// Cria o elemento <img>
-const logo = document.createElement("img");
-logo.src = "./img/logo_cesae-cores_horizontal_header_site.png"; // Substitua pelo caminho da sua imagem
-logo.alt = "Cesae Digital";
-logo.style.height = "70px"; // Ajuste conforme necessário
 
-// Substitui o conteúdo do <a> pela imagem
+const logo = document.createElement("img");
+logo.src = "./img/logo_cesae-cores_horizontal_header_site.png";
+logo.alt = "Cesae Digital";
+logo.style.height = "70px";
+
+
 navbarBrand.innerHTML = ""; // Remove o texto
 navbarBrand.appendChild(logo);
